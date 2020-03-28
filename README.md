@@ -1,2 +1,3 @@
 # Simple-Todo-App
-Day to day Todo Listing App made with ReactJS
+
+Todo Listing App(Basic CRUD) made with ReactJS, withFormik
