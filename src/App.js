@@ -3,6 +3,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import AddTodo from "./components/AddTodo.js";
 import EditTodo from "./components/EditTodo.js";
+import { Container, Row, Col, Button, Table } from "reactstrap";
 
 function App() {
     const [todoState, setTodoState] = useState([]);
@@ -41,47 +42,80 @@ function App() {
         setTodoState(todoState.filter((todos) => todos.id !== todo.id));
     };
 
-    return (
-        <div className="App">
-            <h4>Todos</h4>
-            {todoState.map((todo, i) => {
-                return (
-                    <li key={i}>
-                        {todo.id}. {todo.task}{" "}
-                        <button
-                            color="info"
-                            onClick={() => {
-                                editHandler(todo);
-                            }}
-                        >
-                            Edit
-                        </button>
-                        <button
-                            color="delete"
-                            onClick={() => {
-                                deleteHandler(todo);
-                            }}
-                        >
-                            Delete
-                        </button>
-                    </li>
-                );
-            })}
+    const completeHandler = (id) => {
+        document.getElementById(id).classList.toggle("complete");
+    };
 
-            {editState ? (
-                <div>
-                    <EditTodo
-                        editState={editState}
-                        currentTodo={currentTodo}
-                        updateTodo={updateHandler}
-                    />
-                </div>
-            ) : (
-                <div>
-                    <AddTodo addTodo={addHandler} />
-                </div>
-            )}
-        </div>
+    return (
+        <Container>
+            <div className="App">
+                <Row>
+                    <Col md="7">
+                        {editState ? (
+                            <div>
+                                <EditTodo
+                                    editState={editState}
+                                    currentTodo={currentTodo}
+                                    updateTodo={updateHandler}
+                                />
+                            </div>
+                        ) : (
+                            <div>
+                                <AddTodo addTodo={addHandler} />
+                            </div>
+                        )}
+                    </Col>
+                    <Col md="12">
+                        <h4>Todos</h4>
+                        <Table hover>
+                            <thead>
+                                <tr id="0">
+                                    <th>Task</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {todoState.map((todo, i) => {
+                                    return (
+                                        <tr key={i} id={todo.id}>
+                                            <td>{todo.task}</td>
+                                            <td>
+                                                <Button
+                                                    color="success"
+                                                    onClick={() => {
+                                                        completeHandler(
+                                                            todo.id
+                                                        );
+                                                    }}
+                                                >
+                                                    Complete
+                                                </Button>
+                                                <Button
+                                                    color="warning"
+                                                    onClick={() => {
+                                                        editHandler(todo);
+                                                    }}
+                                                >
+                                                    Edit
+                                                </Button>
+                                                <Button
+                                                    color="danger"
+                                                    onClick={() => {
+                                                        deleteHandler(todo);
+                                                    }}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </Table>
+                    </Col>
+                </Row>
+            </div>
+        </Container>
     );
 }
 

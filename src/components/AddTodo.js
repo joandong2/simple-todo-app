@@ -13,13 +13,13 @@ const AddTodo = (props) => {
                     name="task"
                     placeholder="Task"
                 />
+                <Button color="primary" type="submit">
+                    Add Todo
+                </Button>
                 {props.touched.task && props.errors.task ? (
                     <p className="error">{props.errors.task}</p>
                 ) : null}
             </FormGroup>
-            <Button color="primary" type="submit">
-                Add Todo
-            </Button>
         </Form>
     );
 };
@@ -33,7 +33,7 @@ export default withFormik({
     validationSchema: Yup.object().shape({
         task: Yup.string()
             .required("Task is required.")
-            .min(25, "Must be at least 8 characters long!")
+            .min(10, "Must be at least 10 characters long!")
     }),
     handleSubmit: (values, formikBag) => {
         formikBag.props.addTodo({
